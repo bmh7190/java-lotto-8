@@ -5,6 +5,7 @@ import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 import lotto.domain.Lotto;
+import lotto.domain.LottoResult;
 import lotto.domain.Rank;
 import lotto.domain.UserLottos;
 import lotto.domain.WinningLotto;
@@ -35,7 +36,7 @@ public class LottoService {
         return new UserLottos(lottos);
     }
 
-    public Map<Rank, Integer> calculateResult(UserLottos userLottos, WinningLotto winningLotto) {
+    public LottoResult calculateResult(UserLottos userLottos, WinningLotto winningLotto) {
 
         Map<Rank, Integer> result = new EnumMap<>(Rank.class);
 
@@ -48,7 +49,7 @@ public class LottoService {
             result.put(rank, result.get(rank) + 1);
         }
 
-        return result;
+        return new LottoResult(result);
     }
 
     public int calculateCount(int purchaseAmount) {
