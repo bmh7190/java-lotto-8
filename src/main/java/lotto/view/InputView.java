@@ -89,15 +89,7 @@ public class InputView {
     }
 
     private void validateWinningNumbers(List<Integer> numbers) {
-        validateCount(numbers);
         validateRange(numbers);
-        validateDuplicate(numbers);
-    }
-
-    private void validateCount(List<Integer> numbers) {
-        if (numbers.size() != WINNING_NUMBER_COUNT) {
-            throw new IllegalArgumentException(ErrorMessage.of("당첨 번호는 6개여야 합니다."));
-        }
     }
 
     private void validateRange(List<Integer> numbers) {
@@ -108,16 +100,8 @@ public class InputView {
         }
     }
 
-    private void validateDuplicate(List<Integer> numbers) {
-        Set<Integer> unique = new HashSet<>(numbers);
-        if (unique.size() != numbers.size()) {
-            throw new IllegalArgumentException(ErrorMessage.of("당첨 번호는 중복될 수 없습니다."));
-        }
-    }
-
     private void validateBonusNumber(int bonus, List<Integer> winningNumbers) {
         validateBonusRange(bonus);
-        validateBonusDuplicate(bonus, winningNumbers);
     }
 
     private void validateBonusRange(int bonus) {
@@ -126,9 +110,4 @@ public class InputView {
         }
     }
 
-    private void validateBonusDuplicate(int bonus, List<Integer> winningNumbers) {
-        if (winningNumbers.contains(bonus)) {
-            throw new IllegalArgumentException(ErrorMessage.of("보너스 번호는 당첨 번호와 중복될 수 없습니다."));
-        }
-    }
 }

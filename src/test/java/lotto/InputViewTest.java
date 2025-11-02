@@ -97,17 +97,6 @@ public class InputViewTest {
         }
 
         @Test
-        @DisplayName(("6개 입력을 하지 않으면 예외가 발생한다."))
-        void inputWinningNumbers_wrongCount() {
-
-            setInput("1,2,3,4,5\n");
-
-            assertThatThrownBy(() -> inputView.inputWinningNumbers())
-                    .isInstanceOf(IllegalArgumentException.class)
-                    .hasMessageContaining("당첨 번호는 6개여야 합니다.");
-        }
-
-        @Test
         @DisplayName("1~45 범위를 벗어난 번호가 있으면 예외가 발생한다")
         void inputWinningNumbers_outOfRange() {
 
@@ -116,17 +105,6 @@ public class InputViewTest {
             assertThatThrownBy(() -> inputView.inputWinningNumbers())
                     .isInstanceOf(IllegalArgumentException.class)
                     .hasMessageContaining("당첨 번호는 1에서 45 사이여야 합니다.");
-        }
-
-        @Test
-        @DisplayName("번호가 중복으로 입력되면 예외가 발생한다.")
-        void inputWinningNumbers_dupliacte() {
-
-            setInput("1,1,2,3,4,5");
-
-            assertThatThrownBy(() -> inputView.inputWinningNumbers())
-                    .isInstanceOf(IllegalArgumentException.class)
-                    .hasMessageContaining("당첨 번호는 중복될 수 없습니다.");
         }
 
         @Test
@@ -168,17 +146,6 @@ public class InputViewTest {
             assertThatThrownBy(() -> inputView.inputBonusNumber(winning))
                     .isInstanceOf(IllegalArgumentException.class)
                     .hasMessageContaining("보너스 번호는 1에서 45 사이여야 합니다.");
-        }
-
-        @Test
-        @DisplayName("보너스 번호가 당첨 번호와 중복되면 예외가 발생한다")
-        void inputBonusNumber_duplicate() {
-
-            setInput("3\n");
-
-            assertThatThrownBy(() -> inputView.inputBonusNumber(winning))
-                    .isInstanceOf(IllegalArgumentException.class)
-                    .hasMessageContaining("보너스 번호는 당첨 번호와 중복될 수 없습니다.");
         }
 
         @Test
