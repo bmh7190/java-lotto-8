@@ -142,5 +142,57 @@ public class InputViewTest {
 
     }
 
+    @Nested
+    @DisplayName("보너스 번호 입력")
+    class BonusNumberTest {
+
+        private final List<Integer> winning = List.of(1, 2, 3, 4, 5, 6);
+
+        @Test
+        @DisplayName("보너스 번호를 정상 입력하면 값을 반환한다")
+        void inputBonusNumber_success() {
+
+            setInput("7\n");
+
+            int bonus = inputView.inputBonusNumber(winning);
+
+            assertThat(bonus).isEqualTo(7);
+        }
+
+        @Test
+        @DisplayName("보너스 번호가 1~45 범위를 벗어나면 예외가 발생한다")
+        void inputBonusNumber_outOfRange() {
+
+            setInput("50\n");
+
+            assertThatThrownBy(() -> inputView.inputBonusNumber(winning))
+                    .isInstanceOf(IllegalArgumentException.class)
+                    .hasMessageContaining("보너스 번호는 1에서 45 사이여야 합니다.");
+        }
+
+        @Test
+        @DisplayName("보너스 번호가 당첨 번호와 중복되면 예외가 발생한다")
+        void inputBonusNumber_duplicate() {
+
+            setInput("3\n");
+
+            assertThatThrownBy(() -> inputView.inputBonusNumber(winning))
+                    .isInstanceOf(IllegalArgumentException.class)
+                    .hasMessageContaining("보너스 번호는 당첨 번호와 중복될 수 없습니다.");
+        }
+
+        @Test
+        @DisplayName("보너스 번호가 숫자가 아니면 예외가 발생한다")
+        void inputBonusNumber_notNumber() {
+
+            setInput("abc\n");
+
+            assertThatThrownBy(() -> inputView.inputBonusNumber(winning))
+                    .isInstanceOf(IllegalArgumentException.class)
+                    .hasMessageContaining("보너스 번호는 숫자여야 합니다.");
+        }
+    }
+
+
 
 }
