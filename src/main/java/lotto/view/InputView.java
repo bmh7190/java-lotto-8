@@ -1,6 +1,7 @@
 package lotto.view;
 
 import camp.nextstep.edu.missionutils.Console;
+import lotto.common.ErrorMessage;
 
 public class InputView {
 
@@ -11,11 +12,11 @@ public class InputView {
         int amount = parseToInt(input);
 
         if (amount <= 0) {
-            throw new IllegalArgumentException("[ERROR] 구입 금액은 0보다 커야 합니다.");
+            throw new IllegalArgumentException(ErrorMessage.of("구입 금액은 1000원 단위여야 합니다."));
         }
 
         if (amount % 1000 != 0) {
-            throw new IllegalArgumentException("[ERROR] 1000원 단위로 입력해주세요.");
+            throw new IllegalArgumentException(ErrorMessage.of("1000원 단위로 입력해주세요."));
         }
 
         return amount;
@@ -23,7 +24,7 @@ public class InputView {
 
     private int parseToInt(String input) {
         if (!isNumeric(input)) {
-            throw new IllegalArgumentException("[ERROR] 구입 금액은 숫자여야 합니다.");
+            throw new IllegalArgumentException(ErrorMessage.of("구입 금액은 숫자여야 합니다."));
         }
         return Integer.parseInt(input);
     }
