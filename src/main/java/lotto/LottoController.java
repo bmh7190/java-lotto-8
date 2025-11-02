@@ -48,14 +48,28 @@ public class LottoController {
     }
 
     private WinningLotto inputWinningLotto() {
+        List<Integer> winningNumbers = inputWinningNumbersWithRetry();
+        int bonusNumber = inputBonusNumberWithRetry(winningNumbers);
+        return lottoService.createWinningLotto(winningNumbers, bonusNumber);
+    }
 
-        try {
-            List<Integer> winningNumbers = inputView.inputWinningNumbers();
-            int bonusNumber = inputView.inputBonusNumber(winningNumbers);
-            return lottoService.createWinningLotto(winningNumbers, bonusNumber);
-        } catch (IllegalArgumentException e) {
-            outputView.printError(e.getMessage());
-            return inputWinningLotto();
+    private List<Integer> inputWinningNumbersWithRetry() {
+        while (true) {
+            try {
+                return inputView.inputWinningNumbers();
+            } catch (IllegalArgumentException e) {
+                outputView.printError(e.getMessage());
+            }
+        }
+    }
+
+    private int inputBonusNumberWithRetry(List<Integer> winningNumbers) {
+        while (true) {
+            try {
+                return inputView.inputBonusNumber(winningNumbers);
+            } catch (IllegalArgumentException e) {
+                outputView.printError(e.getMessage());
+            }
         }
     }
 
