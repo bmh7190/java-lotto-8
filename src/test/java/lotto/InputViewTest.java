@@ -1,11 +1,12 @@
 package lotto;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
 import camp.nextstep.edu.missionutils.Console;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.util.List;
 import lotto.view.InputView;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
@@ -80,6 +81,66 @@ public class InputViewTest {
         }
     }
 
+    @Nested
+    @DisplayName("당첨 번호 입력")
+    class WinningNumbersTest {
+
+        @Test
+        @DisplayName("올바른 6개 번호를 쉼표로 입력하면 리스트로 반환한다.")
+        void inputWinningNumbers_success() {
+
+            setInput("1,2,3,4,5,6\n");
+
+            List<Integer> numbers = inputView.inputWinningNumbers();
+
+            assertThat(numbers).containsExactly(1, 2, 3, 4, 5, 6);
+        }
+
+        @Test
+        @DisplayName(("6개 입력을 하지 않으면 예외가 발생한다."))
+        void inputWinningNumbers_wrongCount() {
+
+            setInput("1,2,3,4,5\n");
+
+            assertThatThrownBy(() -> inputView.inputWinningNumbers())
+                    .isInstanceOf(IllegalArgumentException.class)
+                    .hasMessageContaining("당첨 번호는 6개여야 합니다.");
+        }
+
+        @Test
+        @DisplayName("1~45 범위를 벗어난 번호가 있으면 예외가 발생한다")
+        void inputWinningNumbers_outOfRange() {
+
+            setInput("1,2,3,4,5,46\n");
+
+            assertThatThrownBy(() -> inputView.inputWinningNumbers())
+                    .isInstanceOf(IllegalArgumentException.class)
+                    .hasMessageContaining("당첨 번호는 1에서 45 사이여야 합니다.");
+        }
+
+        @Test
+        @DisplayName("번호가 중복으로 입력되면 예외가 발생한다.")
+        void inputWinningNumbers_dupliacte() {
+
+            setInput("1,1,2,3,4,5");
+
+            assertThatThrownBy(() -> inputView.inputWinningNumbers())
+                    .isInstanceOf(IllegalArgumentException.class)
+                    .hasMessageContaining("당첨 번호는 중복될 수 없습니다.");
+        }
+
+        @Test
+        @DisplayName("숫자가 아닌 값이 포함되면 예외가 발생한다.")
+        void inputWinningNumbers_notNumber() {
+
+            setInput("1,우테코 화이팅,3,4,5,6");
+
+            assertThatThrownBy(() -> inputView.inputWinningNumbers())
+                    .isInstanceOf(IllegalArgumentException.class)
+                    .hasMessageContaining("당첨 번호는 숫자여야 합니다.");
+        }
+
+    }
 
 
 }
