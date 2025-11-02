@@ -3,6 +3,7 @@ package lotto.view;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 public class OutputView {
 
@@ -12,6 +13,15 @@ public class OutputView {
             List<Integer> sorted = new ArrayList<>(lotto);
             Collections.sort(sorted);
             System.out.println(sorted);
+        }
+    }
+
+    public void printWinningStatistics(Map<String, Integer> results) {
+        System.out.println("당첨 통계");
+        System.out.println("---");
+
+        for (Map.Entry<String, Integer> entry : results.entrySet()) {
+            System.out.println(entry.getKey() + " - " + entry.getValue() + "개");
         }
     }
 
