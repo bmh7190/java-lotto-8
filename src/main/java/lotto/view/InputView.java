@@ -37,6 +37,17 @@ public class InputView {
         return numbers;
     }
 
+    public int inputBonusNumber(List<Integer> winningNumbers) {
+        System.out.println("보너스 번호를 입력해 주세요.");
+        String input = Console.readLine();
+
+        int bonus = parseToInt(input, "보너스 번호는 숫자여야 합니다.");
+
+        validateBonusNumber(bonus, winningNumbers);
+
+        return bonus;
+    }
+
     private List<Integer> parseWinningNumbers(String input) {
         String[] tokens = input.split(",");
         List<Integer> numbers = new ArrayList<>();
@@ -101,6 +112,23 @@ public class InputView {
         Set<Integer> unique = new HashSet<>(numbers);
         if (unique.size() != numbers.size()) {
             throw new IllegalArgumentException(ErrorMessage.of("당첨 번호는 중복될 수 없습니다."));
+        }
+    }
+
+    private void validateBonusNumber(int bonus, List<Integer> winningNumbers) {
+        validateBonusRange(bonus);
+        validateBonusDuplicate(bonus, winningNumbers);
+    }
+
+    private void validateBonusRange(int bonus) {
+        if (bonus < MIN_NUMBER || bonus > MAX_NUMBER) {
+            throw new IllegalArgumentException(ErrorMessage.of("보너스 번호는 1에서 45 사이여야 합니다."));
+        }
+    }
+
+    private void validateBonusDuplicate(int bonus, List<Integer> winningNumbers) {
+        if (winningNumbers.contains(bonus)) {
+            throw new IllegalArgumentException(ErrorMessage.of("보너스 번호는 당첨 번호와 중복될 수 없습니다."));
         }
     }
 }
