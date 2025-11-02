@@ -76,4 +76,17 @@ public class OutputViewTest {
         assertThat(actualOutput).isEqualTo(expectedOutput);
     }
 
+    @Test
+    @DisplayName("수익률을 소수점 첫째 자리까지 반올림하여 출력한다")
+    void printProfitRate_shouldRoundToOneDecimalPlace() {
+
+        double profitRate = 62.6666;
+
+        outputView.printProfitRate(profitRate);
+
+        String output = outContent.toString().trim();
+
+        assertThat(output).contains("총 수익률은 62.7%");
+    }
+
 }
