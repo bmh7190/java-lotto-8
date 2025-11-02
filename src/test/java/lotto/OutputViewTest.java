@@ -52,14 +52,9 @@ public class OutputViewTest {
     @DisplayName("당첨 통계를 지정된 형식으로 정확히 출력한다")
     void printWinningStatistics_shouldPrintExactFormat() {
 
-        Map<String, Integer> results = new LinkedHashMap<>();
-        results.put("3개 일치 (5,000원)", 1);
-        results.put("4개 일치 (50,000원)", 0);
-        results.put("5개 일치 (1,500,000원)", 0);
-        results.put("5개 일치, 보너스 볼 일치 (30,000,000원)", 0);
-        results.put("6개 일치 (2,000,000,000원)", 0);
+        List<Integer> counts = List.of(1, 0, 0, 0, 0);
 
-        outputView.printWinningStatistics(results);
+        outputView.printWinningStatistics(counts);
 
         String expectedOutput = String.join(System.lineSeparator(),
                 "당첨 통계",
@@ -75,6 +70,7 @@ public class OutputViewTest {
 
         assertThat(actualOutput).isEqualTo(expectedOutput);
     }
+
 
     @Test
     @DisplayName("수익률을 소수점 첫째 자리까지 반올림하여 출력한다")

@@ -1,6 +1,7 @@
 package lotto.domain;
 
 import java.util.EnumMap;
+import java.util.List;
 import java.util.Map;
 
 public class LottoResult {
@@ -25,5 +26,15 @@ public class LottoResult {
         return counts.entrySet().stream()
                 .mapToLong(entry -> (long) entry.getKey().getPrize() * entry.getValue())
                 .sum();
+    }
+
+    public List<Integer> getWinningCounts() {
+        return List.of(
+                getCount(Rank.FIFTH),
+                getCount(Rank.FOURTH),
+                getCount(Rank.THIRD),
+                getCount(Rank.SECOND),
+                getCount(Rank.FIRST)
+        );
     }
 }
