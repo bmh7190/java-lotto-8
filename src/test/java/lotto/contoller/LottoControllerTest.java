@@ -1,11 +1,13 @@
-package lotto;
+package lotto.contoller;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.List;
+import lotto.controller.LottoController;
+import lotto.support.TestInputView;
 import lotto.generator.FixLottoNumberGenerator;
 import lotto.service.LottoService;
-import lotto.view.TestOutputView;
+import lotto.support.TestOutputView;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

@@ -1,4 +1,4 @@
-package lotto;
+package lotto.support;
 
 import java.util.ArrayDeque;
 import java.util.Deque;

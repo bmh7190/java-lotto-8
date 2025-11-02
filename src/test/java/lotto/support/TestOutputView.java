@@ -1,7 +1,8 @@
-package lotto.view;
+package lotto.support;
 
 import java.util.ArrayList;
 import java.util.List;
+import lotto.view.OutputView;
 
 public class TestOutputView extends OutputView {
 
