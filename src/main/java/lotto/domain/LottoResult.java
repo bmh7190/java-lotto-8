@@ -18,10 +18,6 @@ public class LottoResult {
         return counts.getOrDefault(rank, 0);
     }
 
-    public Map<Rank, Integer> getCounts() {
-        return counts;
-    }
-
     public long getTotalPrize() {
         return counts.entrySet().stream()
                 .mapToLong(entry -> (long) entry.getKey().getPrize() * entry.getValue())

@@ -16,10 +16,6 @@ public class UserLottos {
         return lottos;
     }
 
-    public int size() {
-        return lottos.size();
-    }
-
     public List<List<Integer>> getLottoNumbers() {
         return lottos.stream()
                 .map(Lotto::getNumbers)
