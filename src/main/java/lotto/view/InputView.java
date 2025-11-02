@@ -1,28 +1,27 @@
 package lotto.view;
 
 import camp.nextstep.edu.missionutils.Console;
-import java.lang.reflect.Array;
+import lotto.common.ErrorMessage;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import lotto.common.ErrorMessage;
 
 public class InputView {
+
+    private static final int LOTTO_PRICE = 1000;
+    private static final int WINNING_NUMBER_COUNT = 6;
+    private static final int MIN_NUMBER = 1;
+    private static final int MAX_NUMBER = 45;
 
     public int inputPurchaseAmount() {
         System.out.println("구입금액을 입력해 주세요.");
         String input = Console.readLine();
 
-        int amount = parseToInt(input);
+        int amount = parseToInt(input, "구입 금액은 숫자여야 합니다.");
 
-        if (amount <= 0) {
-            throw new IllegalArgumentException(ErrorMessage.of("구입 금액은 1000원 단위여야 합니다."));
-        }
-
-        if (amount % 1000 != 0) {
-            throw new IllegalArgumentException(ErrorMessage.of("1000원 단위로 입력해주세요."));
-        }
+        validatePurchaseAmount(amount);
 
         return amount;
     }
@@ -31,43 +30,77 @@ public class InputView {
         System.out.println("당첨번호를 입력해 주세요.");
         String input = Console.readLine();
 
+        List<Integer> numbers = parseWinningNumbers(input);
+
+        validateWinningNumbers(numbers);
+
+        return numbers;
+    }
+
+    private List<Integer> parseWinningNumbers(String input) {
         String[] tokens = input.split(",");
-
-        if (tokens.length != 6) {
-            throw new IllegalArgumentException(ErrorMessage.of("당첨 번호는 6개여야 합니다."));
-        }
-
-        List<Integer> numbers = new ArrayList<>(6);
-        Set<Integer> duplicates = new HashSet<>();
+        List<Integer> numbers = new ArrayList<>();
 
         for (String token : tokens) {
             String trimmed = token.trim();
-
-            int number = parseToInt(trimmed);
-
-            if (number < 1 || number > 45) {
-                throw new IllegalArgumentException(ErrorMessage.of("당첨 번호는 1에서 45 사이여야 합니다."));
-            }
-
-            if (!duplicates.add(number)) {
-                throw new IllegalArgumentException(ErrorMessage.of("당첨 번호는 중복될 수 없습니다."));
-            }
-
-            numbers.add(number);
+            numbers.add(parseToInt(trimmed, "당첨 번호는 숫자여야 합니다."));
         }
 
         return numbers;
-
     }
 
-    private int parseToInt(String input) {
+    private int parseToInt(String input, String errorMessage) {
         if (!isNumeric(input)) {
-            throw new IllegalArgumentException(ErrorMessage.of("구입 금액은 숫자여야 합니다."));
+            throw new IllegalArgumentException(ErrorMessage.of(errorMessage));
         }
         return Integer.parseInt(input);
     }
 
     private boolean isNumeric(String input) {
         return input.matches("\\d+");
+    }
+
+    private void validatePurchaseAmount(int amount) {
+        validatePositive(amount);
+        validateThousandUnit(amount);
+    }
+
+    private void validatePositive(int amount) {
+        if (amount <= 0) {
+            throw new IllegalArgumentException(ErrorMessage.of("구입 금액은 0보다 커야 합니다."));
+        }
+    }
+
+    private void validateThousandUnit(int amount) {
+        if (amount % LOTTO_PRICE != 0) {
+            throw new IllegalArgumentException(ErrorMessage.of("구입 금액은 1000원 단위여야 합니다."));
+        }
+    }
+
+    private void validateWinningNumbers(List<Integer> numbers) {
+        validateCount(numbers);
+        validateRange(numbers);
+        validateDuplicate(numbers);
+    }
+
+    private void validateCount(List<Integer> numbers) {
+        if (numbers.size() != WINNING_NUMBER_COUNT) {
+            throw new IllegalArgumentException(ErrorMessage.of("당첨 번호는 6개여야 합니다."));
+        }
+    }
+
+    private void validateRange(List<Integer> numbers) {
+        for (int number : numbers) {
+            if (number < MIN_NUMBER || number > MAX_NUMBER) {
+                throw new IllegalArgumentException(ErrorMessage.of("당첨 번호는 1에서 45 사이여야 합니다."));
+            }
+        }
+    }
+
+    private void validateDuplicate(List<Integer> numbers) {
+        Set<Integer> unique = new HashSet<>(numbers);
+        if (unique.size() != numbers.size()) {
+            throw new IllegalArgumentException(ErrorMessage.of("당첨 번호는 중복될 수 없습니다."));
+        }
     }
 }
