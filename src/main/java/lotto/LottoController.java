@@ -31,7 +31,14 @@ public class LottoController {
     }
 
     private int requestPurchaseAmount() {
-        return inputView.inputPurchaseAmount();
+
+        try {
+            return inputView.inputPurchaseAmount();
+        } catch (IllegalArgumentException e) {
+            outputView.printError(e.getMessage());
+            return requestPurchaseAmount();
+        }
+
     }
 
     private UserLottos issueLottos(int purchaseAmount) {
@@ -41,9 +48,15 @@ public class LottoController {
     }
 
     private WinningLotto inputWinningLotto() {
-        List<Integer> winningNumbers = inputView.inputWinningNumbers();
-        int bonusNumber = inputView.inputBonusNumber(winningNumbers);
-        return lottoService.createWinningLotto(winningNumbers, bonusNumber);
+
+        try {
+            List<Integer> winningNumbers = inputView.inputWinningNumbers();
+            int bonusNumber = inputView.inputBonusNumber(winningNumbers);
+            return lottoService.createWinningLotto(winningNumbers, bonusNumber);
+        } catch (IllegalArgumentException e) {
+            outputView.printError(e.getMessage());
+            return inputWinningLotto();
+        }
     }
 
     private LottoResult evaluateResult(UserLottos userLottos, WinningLotto winningLotto) {
