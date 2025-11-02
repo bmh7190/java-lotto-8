@@ -52,6 +52,17 @@ public class LottoService {
         return new LottoResult(result);
     }
 
+    public double calculateYield(LottoResult lottoResult, int purchaseAmount) {
+
+        long totalPrize = lottoResult.getTotalPrize();
+
+        if (purchaseAmount == 0) {
+            return 0.0;
+        }
+
+        return (double) totalPrize / purchaseAmount * 100;
+    }
+
     public int calculateCount(int purchaseAmount) {
         return purchaseAmount / PRICE_PER_LOTTO;
     }
