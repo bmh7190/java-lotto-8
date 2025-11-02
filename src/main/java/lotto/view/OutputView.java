@@ -25,4 +25,8 @@ public class OutputView {
         }
     }
 
+    public void printProfitRate(double profitRate) {
+        double rounded = Math.round(profitRate * 10) / 10.0;
+        System.out.printf("총 수익률은 %,.1f%%입니다.%n", rounded);
+    }
 }
